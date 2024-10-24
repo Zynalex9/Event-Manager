@@ -4,6 +4,7 @@ import Google from "next-auth/providers/google";
 import userModel from "./models/userModel";
 import bcrypt from "bcryptjs";
 import { dbConnect } from "./helpers/connectDB";
+
 dbConnect();
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -49,4 +50,23 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
+  callbacks: {
+    async session({ session, token }) {
+      if (token) {
+        session.user.id = token.id as string;
+        session.user.name = token.name as string;
+        session.user.email = token.email as string;
+        console.log("SESSSSIONNN: ", session)
+      }
+      return session; 
+    },
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id as string;
+        token.name = user.name as string;
+        token.email = user.email as string;
+      }
+      return token; 
+    },
+  },
 });
