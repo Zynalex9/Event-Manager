@@ -6,7 +6,7 @@ const eventSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please enter a title"],
     minLength: [6, "Please enter a minimum of 6 characters"],
-    unique:true
+    unique: true,
   },
   shortDescription: {
     type: String,
@@ -34,11 +34,15 @@ const eventSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  attendees: [{
-    type: mongoose.Types.ObjectId,
-    ref: "User",
-  }],
+  attendees: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+      default: [],
+    },
+  ],
 });
 
-const eventModel = mongoose.models.Event || mongoose.model("Event", eventSchema);
-export default eventModel
+const eventModel =
+  mongoose.models.Event || mongoose.model("Event", eventSchema);
+export default eventModel;
