@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { dbConnect } from "../../../../../helpers/connectDB";
 import eventModel from "../../../../../models/eventModel";
+import userModel from "../../../../../models/userModel";
 dbConnect();
 export async function POST(request: NextRequest) {
   const reqBody = await request.json();
@@ -26,6 +27,10 @@ export async function POST(request: NextRequest) {
       host,
     });
     await newEvent.save();
+    await userModel.findByIdAndUpdate(host, {
+      $push: { eventHosted: newEvent._id },
+      new: true,
+    });
     return NextResponse.json(
       {
         success: true,
