@@ -6,8 +6,7 @@ export async function GET(
   { params }: { params: { searchterm: string } }
 ) {
   try {
-    console.log("Parameters:", params);
-    const { searchterm } = params; // Destructure the searchterm from params
+    const { searchterm } = params; 
     const regex = new RegExp(searchterm, "i");
     const events = await eventModel.find({ title: { $regex: regex } });
     if (events.length === 0) {
