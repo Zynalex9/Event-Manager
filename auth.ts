@@ -1,6 +1,5 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import Google from "next-auth/providers/google";
 import userModel from "./models/userModel";
 import bcrypt from "bcryptjs";
 import { dbConnect } from "./helpers/connectDB";
@@ -9,7 +8,6 @@ dbConnect();
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
-    Google,
     Credentials({
       credentials: {
         email: { label: "Email", type: "text" },
