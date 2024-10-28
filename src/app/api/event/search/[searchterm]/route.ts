@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import eventModel from "../../../../../../models/eventModel";
-
+import { dbConnect } from "../../../../../../helpers/connectDB";
+dbConnect()
 export async function GET(
   request: NextRequest,
   { params }: { params: { searchterm: string } }

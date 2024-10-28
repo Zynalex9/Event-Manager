@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import mongoose from "mongoose";
 import eventModel from "../../../../../../models/eventModel";
-
+import { dbConnect } from "../../../../../../helpers/connectDB";
+dbConnect()
 export async function GET(
   request: NextRequest,
   { params }: { params: { user: string } }

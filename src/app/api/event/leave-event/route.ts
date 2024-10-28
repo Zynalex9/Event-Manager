@@ -1,13 +1,12 @@
-import { NextResponse, NextRequest } from "next/server";
-import userModel from "../../../../../models/userModel";
-import eventModel from "../../../../../models/eventModel";
 import mongoose from "mongoose";
+import { NextRequest, NextResponse } from "next/server";
+import eventModel from "../../../../../models/eventModel";
+import userModel from "../../../../../models/userModel";
 import { dbConnect } from "../../../../../helpers/connectDB";
 dbConnect()
 export async function POST(request: NextRequest) {
   const reqBody = await request.json();
   const { eventId, userId } = reqBody;
-
   try {
     if (!mongoose.Types.ObjectId.isValid(userId)) {
       return NextResponse.json(
@@ -28,54 +27,45 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-
-    const checkValidId = await userModel.findOne({ _id: userId });
-    if (!checkValidId) {
+    const event = await eventModel.findById(eventId);
+    if (!event || event.length === 0) {
       return NextResponse.json(
         {
           success: false,
-          message: "Please login to join this event",
+          message: "Event Does not exist !!",
         },
-        { status: 402 }
+        { status: 400 }
       );
     }
-
-    const isEvent = await eventModel.findOne({ _id: eventId });
-    if (!isEvent) {
+    const user = await userModel.findById(userId);
+    if (!user || user.length === 0) {
       return NextResponse.json(
         {
           success: false,
-          message: "No event exists",
+          message: "User not authenticated!!",
         },
-        { status: 402 }
+        { status: 400 }
       );
     }
-  if (isEvent.attendees.includes(userId)) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "You are already joined to this event",
-        },
-        { status: 409 } 
-      );
-    }
-    const updatedAttendee = await eventModel.findByIdAndUpdate(eventId, {
-      $push: { attendees: checkValidId._id },
-      new:true
-    });
-
+    const userObjectId = new mongoose.Types.ObjectId(userId);
+    const updatedAttendee = await eventModel.updateOne(
+      { _id: eventId, attendees: userObjectId },
+      { $pull: { attendees: userObjectId } },
+      { new: true }
+    );
     return NextResponse.json(
       {
         success: true,
-        message: "You have joined this event",
+        message: `${user.firstName} has left the ${event.title} event`,
       },
       { status: 201 }
     );
   } catch (error: any) {
+    console.error("Error processing request:", error);
     return NextResponse.json(
       {
+        message: "Error processing request",
         success: false,
-        message: "Internal Server Error",
         error: error?.message,
       },
       { status: 500 }
