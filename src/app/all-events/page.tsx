@@ -1,6 +1,5 @@
-'use client'
 import React from "react";
-import { CldImage } from "next-cloudinary";
+import ImageComp from "./ImageComp";
 
 interface cloudinaryResource {
   width: number;
@@ -9,12 +8,13 @@ interface cloudinaryResource {
   public_id: string;
 }
 const page = async () => {
-  // Replace with your Cloudinary API endpoint
   const res = await fetch(
     `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/resources/image`,
     {
       headers: {
-        Authorization: `Basic ${Buffer.from(`${process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY}:${process.env.CLOUDINARY_API_SECRET}`).toString("base64")}`,
+        Authorization: `Basic ${Buffer.from(
+          `${process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY}:${process.env.CLOUDINARY_API_SECRET}`
+        ).toString("base64")}`,
       },
     }
   );
@@ -29,13 +29,7 @@ const page = async () => {
       <h1 className="text-6xl text-cyan-500">ALL EVENTS !!</h1>
       <div className="photo flex gap 5 justify-between flex-wrap w-full p-6 border">
         {resources.map((resource: cloudinaryResource) => (
-          <CldImage
-            key={resource.public_id}
-            src={`${resource.public_id}`}
-            height={resource.height}
-            width={resource.width}
-            alt="hello"
-          />
+       <ImageComp key={resource.public_id} resource={resource} />
         ))}
       </div>
     </div>
