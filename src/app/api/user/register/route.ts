@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
   const reqBody = await request.json();
   console.log("reqBody", reqBody);
   try {
-    const { firstName, lastName, email, password,username } = reqBody;
+    const { firstName, lastName, email, password,username,  public_id } = reqBody;
     const user = await userModel.findOne({ email });
     if (user) {
       return NextResponse.json(
@@ -27,6 +27,7 @@ export async function POST(request: NextRequest) {
       username,
       email,
       password: hashPassword,
+      public_id
     });
     await newUser.save();
     return NextResponse.json(

@@ -5,8 +5,15 @@ import userModel from "../../../../../models/userModel";
 dbConnect();
 export async function POST(request: NextRequest) {
   const reqBody = await request.json();
-  const { title, shortDescription, longDescription, date, location, host } =
-    reqBody;
+  const {
+    title,
+    shortDescription,
+    longDescription,
+    date,
+    location,
+    host,
+    public_id,
+  } = reqBody;
   try {
     const isTitle = await eventModel.findOne({ title });
     if (isTitle) {
@@ -25,6 +32,7 @@ export async function POST(request: NextRequest) {
       date,
       location,
       host,
+      public_id
     });
     await newEvent.save();
     await userModel.findByIdAndUpdate(host, {

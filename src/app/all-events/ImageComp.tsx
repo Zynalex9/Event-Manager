@@ -19,7 +19,8 @@ const ImageComp = ( {resource} :ImageCompProps) => {
         src={`${resource.public_id}`}
         height={resource.height}
         width={resource.width}
-        alt="hello"
+        alt={resource.public_id}
+        sizes="(min-width:786px) 33vw, (min-width:1024px) 25vw,(min-width:1280px) 20vw, 50vw"
       />
     </div>
   );

@@ -41,6 +41,11 @@ const eventSchema = new mongoose.Schema({
       default: [],
     },
   ],
+  public_id: {
+    type: String,
+    required: true,
+    unique: true,
+  },
 });
 
 const eventModel = mongoose.models.Event || mongoose.model("Event", eventSchema);
