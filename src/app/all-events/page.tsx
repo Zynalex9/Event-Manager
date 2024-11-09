@@ -9,7 +9,7 @@ interface cloudinaryResource {
   public_id: string;
 }
 const page = async () => {
-  const folderName = "eventmanger"
+  const folderName = "eventmanger/eventImgs"
   const res = await fetch(
     `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/resources/image/upload?prefix=${folderName}`,
     {
