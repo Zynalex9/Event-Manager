@@ -15,5 +15,11 @@ export async function GET( request: NextRequest, { params }: { params: { user: s
         message:"User found",
         isUser
       })
-  } catch (error) {}
+  }  catch (error:any) {
+    console.error("Error processing request:", error);
+    return NextResponse.json(
+      { message: "Error processing request", success: false, error: error?.message },
+      { status: 500 }
+    );
+  }
 }
