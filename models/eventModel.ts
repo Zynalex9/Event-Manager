@@ -1,33 +1,31 @@
 import mongoose from "mongoose";
-import { unique } from "next/dist/build/utils";
 
 const eventSchema = new mongoose.Schema({
   title: {
     type: String,
     required: [true, "Please enter a title"],
-    minLength: [6, "Please enter a minimum of 6 characters"],
-    unique: true,
+    minLenght: [6, "Title too short"],
   },
   shortDescription: {
     type: String,
-    required: [true, "Please enter a short description"],
-    minLength: [20, "Please enter a minimum of 20 characters"],
+    required: [true, "Please enter short description for event"],
+    minLenght: [16, "short description too short"],
   },
   longDescription: {
     type: String,
-    required: [true, "Please enter a description"],
-    minLength: [40, "Please enter a minimum of 40 characters"],
+    required: [true, "Please enter  description for event"],
+    minLenght: [26, "Description too short"],
   },
-  date: {
-    type: Date,
-    required: [true, "Please enter a date"],
+  category: {
+    type: String,
+    required: true,
   },
   location: {
     type: String,
-    required: [true, "Please enter a location"],
+    required: true,
   },
-  imgUrl: {
-    type: String,
+  date: {
+    type: Date,
   },
   host: {
     type: mongoose.Types.ObjectId,
@@ -47,6 +45,6 @@ const eventSchema = new mongoose.Schema({
     unique: true,
   },
 });
-
-const eventModel = mongoose.models.Event || mongoose.model("Event", eventSchema);
+const eventModel =
+  mongoose.models.Event || mongoose.model("Event", eventSchema);
 export default eventModel;
