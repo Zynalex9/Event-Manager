@@ -1,38 +1,61 @@
-'use client'
+"use client";
+import Link from "next/link";
 import React, { useState } from "react";
 
 const NavBar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
-  if (isLoggedIn === true) {
-    return (
-      <>
-        <header className="flex items-center justify-between px-4 py-4 absolute w-full">
-          <div className="left bg-white flex items-center justify-evenly px-4 py-2 rounded-xl gap-2 text-md ">
-            <h2>All Events</h2>
-            <h2>Profile</h2>
-            <h2>Sign Out</h2>
-          </div>
-          <div className="middle"><h2 className="text-4xl">Evento.</h2></div>
 
-          <div className="right bg-white flex items-center justify-evenly px-6 py-4 rounded-xl text-md">All Events</div>
-        </header>
-      </>
-    );
-  } else {
-    return (
-      <>
-        <header>
-          <div className="left">
-            <h2>About Us</h2>
-            <h2>Contact Us</h2>
-            <h2>Services</h2>
+  return (
+    <>
+      <header className="flex items-center justify-between px-6 py-4 absolute w-full z-40 bg-transparent">
+        {isLoggedIn ? (
+          <div className="left flex items-center gap-6 bg-white/80 backdrop-blur-md px-4 py-2 rounded-xl shadow-lg">
+            <h2 className="text-lg font-semibold text-gray-800 hover:text-blue-600 cursor-pointer">
+              All Events
+            </h2>
+            <h2 className="text-lg font-semibold text-gray-800 hover:text-blue-600 cursor-pointer">
+              Profile
+            </h2>
+            <h2 className="text-lg font-semibold text-gray-800 hover:text-red-500 cursor-pointer">
+              Sign Out
+            </h2>
           </div>
-          <div className="middle">Evento.</div>
-          <div className="right">Join Now</div>
-        </header>
-      </>
-    );
-  }
+        ) : (
+          <div className="left flex items-center gap-6">
+            <h2 className="text-lg font-medium text-gray-200 hover:text-blue-400 cursor-pointer">
+              About Us
+            </h2>
+            <h2 className="text-lg font-medium text-gray-200 hover:text-blue-400 cursor-pointer">
+              Contact Us
+            </h2>
+            <h2 className="text-lg font-medium text-gray-200 hover:text-blue-400 cursor-pointer">
+              Services
+            </h2>
+          </div>
+        )}
+
+        <div className="middle">
+          <Link href={'/'}> <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-wider">
+            Evento<span className="text-blue-500">.</span>
+          </h1></Link>
+        </div>
+
+        {isLoggedIn ? (
+          <div className="right bg-white/80 backdrop-blur-md px-6 py-2 rounded-xl shadow-lg">
+            <h2 className="text-lg font-semibold text-gray-800 hover:text-blue-600 cursor-pointer">
+              All Events
+            </h2>
+          </div>
+        ) : (
+          <div className="right">
+            <button className="bg-blue-500 text-white py-2 px-6 rounded-lg font-semibold shadow-lg hover:bg-blue-600 transition">
+              Join Now
+            </button>
+          </div>
+        )}
+      </header>
+    </>
+  );
 };
 
 export default NavBar;
